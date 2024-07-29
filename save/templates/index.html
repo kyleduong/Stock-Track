@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js HTML Server</title>
+    <style>
+        html, body {
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .container {
+            
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row; /* Align children horizontally */
+            flex-wrap: wrap; /* Wrap items to the next line if needed */
+            gap: 20px; /* Space between elements */
+            justify-content: center; /* Center align items */
+        }
+
+        .main-content {
+            border: 1px solid green;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            /*gap: 20px;  Space between elements */
+            justify-content: center; /* Center align items */
+            width: 100%;
+        }
+
+        .left {
+            border: 1px solid blue;
+            flex: 1;
+            float: left;
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            flex-wrap: wrap;
+            position: relative;
+            margin: auto;
+        }
+
+        .right {
+            border: 1px solid red;
+            flex: 1;
+            float: right;
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            flex-wrap: wrap;
+            position: relative;
+            margin: auto;
+        }
+
+
+        .scrollable-box {
+            min-width: 20%; /* Minimum width to ensure it's not too narrow */
+            max-width: 90%; /* Maximum width to prevent it from getting too wide */
+            height: 525px;
+            width: 50%; /* Full width within its container */
+            overflow-y: auto;
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
+        }
+
+        .scrollable-box::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollable-box {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollable-box ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .scrollable-box li {
+            padding: 0;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .scrollable-box li div {
+            background-color: #f0f0f0;
+            padding: 19px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .scrollable-box li div:hover {
+            background-color: #e0e0e0;
+        }
+
+        .heading {
+            margin: 10px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .heading-search {
+            margin: 10px;
+            margin-top: 40px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .search-container {
+            
+            flex: 1;
+            height: auto;
+            min-width: 20%; /* Minimum width to ensure it’s not too small */
+            max-width: 90%; /* Maximum width to prevent it from getting too wide */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column; /* Align items vertically */
+            align-items: center; /* Center align items horizontally */
+            gap: 40px; /* Space between forms */
+
+            position: relative;
+            margin: auto;
+
+        }
+
+        form {
+            width: 100%; /* Full width within container */
+            display: flex;
+            flex-direction: column; /* Align items vertically */
+            align-items: center; /* Center align items horizontally */
+            margin-bottom: 20px; /* Space between forms */
+        }
+
+        input[name="searchBox"],
+        input[name="addBox"]{
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            width: 150%; /* Full width */
+            box-sizing: border-box;
+            margin-bottom: 10px; /* Space between input and button */
+        }
+
+        /* Class to apply when zoom is over 400% */
+        .zoomed input[name="searchBox"],
+        .zoomed input[name="addBox"] {
+            width: 100%; /* Adjusted width */
+        }
+
+        button {
+            background-color: #0070c9;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%; /* Full width */
+            box-sizing: border-box;
+
+        }
+
+        .zoomed button{
+            width: 60%;
+        }
+
+
+        button:hover {
+            background-color: #005aa7;
+        }
+
+        .table-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 2%;
+            padding: 5px;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        table.price-table {
+            width: 80%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table.price-table th,
+        table.price-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        table.price-table th {
+            background-color: #f0f0f0;
+        }
+
+        table.price-table tr:last-child td {
+            border-bottom: none;
+        }
+        .image-container {
+            margin-top: 20px;
+            text-align: center;
+            padding-bottom: 50px;
+        }
+
+        .second-image-container {
+            margin-top: 20px;
+            text-align: center;
+            padding-bottom: 50px;
+        }
+
+        #graphics-card-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        #choice-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            background-color: rgba(0, 0, 0, 0.6); /* Slightly more transparent background */
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 80%; 
+            height: 80%;
+            max-height: 80%; 
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 0; /* Hides scrollbar in webkit browsers */
+            background: transparent; /* Ensures scrollbar area doesn't appear */
+        }
+
+        .modal-content {
+            -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
+            scrollbar-width: none; /* Hides scrollbar in Firefox */
+        }
+
+        .close {
+            color: #aaa;
+            position: fixed; /* Fix position relative to the viewport */
+            top: 7.5%;
+            right: 9.25%;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2; /* Ensure it stays above other content */
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        .modal-image-container {
+            display: absolute;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .modal-image {
+            max-width: 100%; /* Ensure image fits within the modal width */
+            max-height: 80vh;
+            border-radius: 12px;
+            object-fit: contain;
+            pointer-events: none;
+            margin-top: 0; /* Remove top margin */
+            align-self: flex-start; /* Align image to the left */
+            margin-left: 0; /* Ensure no extra left margin */
+        }
+
+        .modal-body {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        #modal-date {
+            margin-bottom: 20px;
+        }
+
+        #modal-graph {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+        }
+
+
+        #flash-messages {
+            color: red;
+            font-size: 16px;
+            position: relative;
+            left: 0%;
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="left">
+                <h2>Price history</h2>
+                <div class="scrollable-box">   
+                    <ul id="itemList">
+                        <li><div onclick="showImage('ryzen 9 3900x')">ryzen 9 3900x</div></li>
+                        <li><div onclick="showImage('144hz monitor')">144hz monitor</div></li>
+                        <li><div onclick="showImage('TSLA')">TSLA</div></li>
+                        <li><div onclick="showImage('55 inch tv')">55 inch tv</div></li>
+                        <li><div onclick="showImage('ddr4 ram')">ddr4 ram</div></li>
+                        <li><div onclick="showImage('512gb ssd')">512gb ssd</div></li>
+                        <li><div onclick="showImage('750w power supply')">750w power supply</div></li>
+                        <li><div onclick="showImage('keyboard')">keyboard</div></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="search-container">
+                    <!--REMOVE THE FORM TO MAKE THE WEBSITE LOOK HOW IT DID BEFORE-->
+                    <form action="/" method = "POST">
+                        <h1 class="heading-search">Search for a existing ticker</h1>
+                        <input type="text" id ="searchBox" name="searchBox" placeholder="Search...">
+                        <button id="scrapper">Search</button>
+                    </form>
+                    <!--FIX THIS-->
+                    <form action="/scrape_price" method = "POST">
+                        <h1 class="heading">Scrape Stock to the Database</h1>
+                        <input type="text" id ="addBox" name="addBox" placeholder="Add ticker here...">
+                        <button id="add" name = "add">Scrape!</button>
+                    </form>
+                    <!-- FOR THE FLASH MESSAGES -->
+                    <div id="flash-messages">
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <p>{{ messages[-1] }}</p>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="recent-scrapes-container">
+        
+    </div>
+
+    <div class="table-container">
+        <div class = "heading"> Recent Scrapes </div>
+            <table class="price-table" id="price-table">
+                
+                <tr>
+                    <th>Date</th>
+                    <th>Ticker</th>
+                    <th>Price</th>
+                    <th>$ Change</th>
+                    <th>% Change</th>
+                    
+                </tr>
+                <!--
+                <tr>
+                    <td>2024-07-01</td>
+                    <td>TSLA</td>
+                    <td>$20.00</td>
+                    <td>+0.50</td>
+                    <td>+0.06%</td>
+                </tr>
+                <tr>
+                    <td>2024-07-02</td>
+                    <td>TSLA</td>
+                    <td>$20.50</td>
+                    <td>+0.10</td>
+                    <td>+0.8%</td>
+                </tr>
+                -->
+                <!-- Add more rows as needed -->
+            </table>
+    </div>
+    <div class="image-container">
+        <h1>Graphics Card Image</h1>
+        <img id="graphics-card-image" src="" alt="Graphics Card">
+    </div>
+    <div class="second-image-container">
+        <h1>Rymond</h1>
+        <img id="choice-image" src="" alt="There is no picture yet." onerror="imageError()"/>
+        <p id="image-error-message" style="display: none;">Image failed to load</p>
+    </div>
+
+    <!--This is why the pop up opens immediately-->
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2 id="modal-ticker">Ticker</h2>
+            </div>
+            <div class="modal-header">
+                <h2 id="modal-price">Price</h2>
+            </div>
+            <div class="modal-image-container">
+                <img id="modal-image" class="modal-image" src="" alt="Large view">
+            </div>
+            <div class="modal-body">
+                <p id="modal-date">Last Scrape Date: </p>
+                <div id="modal-graph">
+                    <!-- Graph can be rendered here -->
+                    <canvas id="graph-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Chart.js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+
+    <script>
+        fetch('/get_image_url')
+            .then(response => response.json())
+            .then(data => {
+                // scrapping the picture from newegg
+                document.getElementById('graphics-card-image').src = data.image_url;
+
+                // For the second picture, I manually put in a picture
+                // SO I NEED TO CHANGE THIS LATER WHEN I PUSH THE CODE ----------------------------------------------------------
+                // Most browsers do not allow web pages served over HTTP or HTTPS to directly access local file paths for security reasons. 
+                // Instead, you should serve the image through your web server.
+                // Hence the use for url_for in this case
+                document.getElementById('choice-image').src = "{{ url_for('static', filename='rymond2.0.png') }}";
+
+            });
+
+        function showImage(item) {
+            var modal = document.getElementById('myModal');
+            var modalImg = document.getElementById('modal-image');
+            var modalTicker = document.getElementById('modal-ticker');
+            var modalPrice = document.getElementById('modal-price');
+            var modalDate = document.getElementById('modal-date');
+            var graphCanvas = document.getElementById('graph-canvas');
+
+            // THOUGHT PROCESS, TAKE YOU TO LINK, USE THE ROUTE TO LOOK FOR ANY ITEM WITH THAT TICKER, IF IT EXITS THEN RETURN A JSON WITH ALL OF THE DATA
+            // AND THEN USE IT IN THE POP UP, IF NOT THEN RETURN AN ERROR MESSAGE.
+
+            fetch(`/get_ticker/${item}`)
+                .then(response => {
+                if (!response.ok) {
+                    throw new Error('Item Not Found');
+                }
+                return response.json();
+                })
+
+                .then(data => {
+                    // Update modal content with the fetched data
+                    modalTicker.textContent = `Ticker: ${data.ticker}`;
+                    modalPrice.textContent = `Price: ${data.price}`;
+                    modalDate.textContent = `Last Scrape Date: ${data.date}`;
+                    
+                    // Update modal image source if an image URL is returned in data
+                    // Example: modalImg.src = data.image_url; // If image URL is provided
+                    
+                    // Optionally: Update the graph with new data
+                    // You can use Chart.js or another library to render the graph using data
+
+                    // Display the modal
+                    modal.style.display = "flex";
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    // Display an error message or handle the error
+                    modalTicker.textContent = 'Error: Item not found';
+                    modalPrice.textContent = '';
+                    modalDate.textContent = '';
+                    modalImg.src = ''; // Optionally hide the image if there's an error
+                    modal.style.display = "flex";
+                });
+            
+
+
+
+            if (item === 'TSLA') {
+                var imgSrc = "https://th.bing.com/th/id/OIP.kvy6yciEcE6bRs_mhM0HUAAAAA?rs=1&pid=ImgDetMain"; // Update this to the correct path to your image
+                modalImg.src = imgSrc;
+                modal.style.display = "flex";
+            }
+            // Additional logic for changing image source or other actions
+        }
+
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName('close')[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+    </script>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+
+    <!-- This is used when the graphics-card-image encounters an error and doesn't load, prints text in its place-->
+    <script>
+        function imageError() {
+            var imgElement = document.getElementById('choice-image');
+            var errorMessage = document.getElementById('image-error-message');
+    
+            imgElement.style.display = 'none'; // Hide the image
+            errorMessage.style.display = 'block'; // Show the error message
+        }
+    </script>
+    <script>
+        function detectZoom() {
+            const zoomLevel = window.devicePixelRatio;
+
+            const body = document.body;
+            const searchContainer = document.querySelector('.search-container');
+            const left = document.querySelector('.left');
+
+            const width = window.outerWidth;
+            const height = window.outerHeight;
+
+            // Apply or remove class based on zoom level
+            if ((zoomLevel >= 1.50) || (width < 1300)) {
+                body.classList.add('zoomed');
+            } else {
+                body.classList.remove('zoomed');
+            }
+        
+
+        }
+
+        window.addEventListener('load', detectZoom);
+        window.addEventListener('resize', detectZoom);
+
+        
+    </script>
+    <script>
+    function updateTable() {
+        fetch('/prices')  // Replace with your data endpoint
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Fetched data:', data);  // Log the fetched data
+    
+                const table = document.getElementById('price-table');
+        
+                // Clear existing rows except for the header
+                while (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+    
+                data.forEach(item => {
+                    let row = table.insertRow(1);
+
+                    let c1 = row.insertCell(0);
+                    let c2 = row.insertCell(1);
+                    let c3 = row.insertCell(2);
+                    let c4 = row.insertCell(3);
+                    let c5 = row.insertCell(4);
+                    c1.innerText = item.date;
+                    c2.innerText = item.ticker;
+                    c3.innerText = item.price;
+
+                    // Fetch the previous ticker data
+                    fetch(`/get_ticker_previous/${item.ticker}/${item.id}`)
+                        .then(prevResponse => {
+                            if (!prevResponse.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return prevResponse.json();
+                        })
+                        .then(prevData => {
+                            console.log('Previous data:', prevData);  // Log the previous data
+
+                            // Calculate the dollar and percentage change
+                            let dollarChange = item.price - prevData.price;
+                            let percentChange = ((item.price - prevData.price) / prevData.price) * 100;
+                            
+                            // Check if the dollar change was positive or negative
+                            if (dollarChange > 0){
+                                c4.innerText = "+" + dollarChange.toFixed(2);
+                            }else{
+                                c4.innerText = dollarChange.toFixed(2);             
+                            }
+                            
+                            c5.innerText = percentChange.toFixed(2) + '%';
+                        })
+                        .catch(error => {
+                            console.error('Error fetching previous data:', error);
+                            c4.innerText = '0.00';
+                            c5.innerText = '0.00%';
+                        });
+
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    // Call the function initially to populate the table when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        updateTable();
+    });
+    </script>
+
+
+</body>
+</html>

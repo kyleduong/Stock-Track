@@ -1,0 +1,394 @@
+green* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  border: 1px solid blue; /* Add border to see the size and position of #root */
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #fff;
+  color: #333;
+  width: calc(100% - 20px); /* Adjust width to account for left and right margins */
+  height: calc(100% - 20px); /* Adjust height to account for top and bottom margins */
+  border: 1px solid red;
+}
+
+.container {
+  width: 100%; /* Adjust width to account for left and right margins */
+  height: 100%; /* Adjust height to account for top and bottom margins */
+
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row; /* Align children horizontally */
+  flex-wrap: wrap; /* Wrap items to the next line if needed */
+  gap: 20px; /* Space between elements */
+  justify-content: center; /* Center align items */
+  border: 1px solid green;
+}
+
+.main-content {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /*gap: 20px;  Space between elements */
+  justify-content: center; /* Center align items */
+  width: 100%;
+  height: 100%;
+}
+
+.left {
+  border: 1px solid blue;
+  flex: 1;
+  float: left;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  position: relative;
+  margin: auto;
+}
+
+.right {
+  border: 1px solid red;
+  flex: 1;
+  float: right;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  position: relative;
+  margin: auto;
+}
+
+.centered-header {
+  text-align: center;
+  padding: 10px;
+}
+
+.scrollable-box {
+  min-width: 20%; /* Minimum width to ensure it's not too narrow */
+  max-width: 100%; /* Maximum width to prevent it from getting too wide */
+  height: 512px;
+  min-height: 80%; 
+  max-height: 80%;
+  width: 50%; /* Full width within its container */
+  
+  overflow-y: auto;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+  padding: 10px;
+  
+}
+
+.scrollable-box::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollable-box {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollable-box ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  
+}
+
+.scrollable-box li {
+  padding: 0;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.scrollable-box li div {
+  background-color: #f0f0f0;
+  padding: 19px;
+  border-radius: 12px;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.scrollable-box li div:hover {
+  background-color: #e0e0e0;
+}
+
+.heading {
+  margin: 10px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.heading-search {
+  margin: 10px;
+  margin-top: 40px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.search-container {
+  
+  flex: 1;
+  height: auto;
+  min-width: 20%; /* Minimum width to ensure it’s not too small */
+  max-width: 90%; /* Maximum width to prevent it from getting too wide */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  align-items: center; /* Center align items horizontally */
+  gap: 40px; /* Space between forms */
+
+  position: relative;
+  margin: auto;
+
+}
+
+form {
+  width: 100%; /* Full width within container */
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  align-items: center; /* Center align items horizontally */
+  margin-bottom: 20px; /* Space between forms */
+}
+
+input[name="searchBox"],
+input[name="addBox"]{
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  width: 100%; /* Full width */
+  box-sizing: border-box;
+  margin-bottom: 10px; /* Space between input and button */
+}
+
+/* Class to apply when zoom is over 400% */
+.zoomed input[name="searchBox"],
+.zoomed input[name="addBox"] {
+  width: 100%; /* Adjusted width */
+}
+
+button {
+  background-color: #0070c9;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 60%; /* Full width */
+  box-sizing: border-box;
+  display: inline-flex; /* Better for alignment */
+  justify-content: center; /* Center horizontally */
+}
+
+
+button:hover {
+  background-color: #005aa7;
+}
+
+.table-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 2%;
+  padding: 5px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid black;
+}
+
+table.price-table {
+  width: 90%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table.price-table th,
+table.price-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+table.price-table th {
+  background-color: #f0f0f0;
+}
+
+table.price-table tr:last-child td {
+  border-bottom: none;
+}
+.image-container {
+  margin-top: 20px;
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+.second-image-container {
+  margin-top: 20px;
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+#graphics-card-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#choice-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: hidden; 
+  background-color: rgba(0, 0, 0, 0.6); /* Slightly more transparent background */
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 80%; 
+  height: 80%;
+  max-height: 80%; 
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow-y: auto;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 0; /* Hides scrollbar in webkit browsers */
+  background: transparent; /* Ensures scrollbar area doesn't appear */
+}
+
+.modal-content {
+  -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
+  scrollbar-width: none; /* Hides scrollbar in Firefox */
+}
+
+.close {
+  color: #aaa;
+  position: fixed; /* Fix position relative to the viewport */
+  top: 7.5%;
+  right: 9.25%;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2; /* Ensure it stays above other content */
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.modal-image-container {
+  display: absolute;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.modal-image {
+  max-width: 100%; /* Ensure image fits within the modal width */
+  max-height: 80vh;
+  border-radius: 12px;
+  object-fit: contain;
+  pointer-events: none;
+  margin-top: 0; /* Remove top margin */
+  align-self: flex-start; /* Align image to the left */
+  margin-left: 0; /* Ensure no extra left margin */
+}
+
+.modal-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
+
+}
+
+#modal-date {
+  margin-bottom: 20px;
+}
+
+#modal-graph {
+  width: 80%;
+  height: 100%;
+}
+
+
+#flash-messages {
+  color: red;
+  font-size: 16px;
+  position: relative;
+  left: 0%;
+  text-align: center;
+}
+
