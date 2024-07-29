@@ -136,7 +136,7 @@ import Caret from './supportingJSX/Caret.jsx';
 */
   return (
     <div className="table-container">
-      <h2 className="heading">10 Most Recent Scrapes</h2>
+      <h2 className="heading">10 Most Recent Manual Scrapes</h2>
       <table className="price-table">
         <thead>
           <tr>

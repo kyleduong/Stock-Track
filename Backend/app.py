@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import requests, json
 from flask_sqlalchemy import SQLAlchemy
 from models import db, PriceHistory
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -154,7 +156,6 @@ def get_ticker(tickr):
         'price': ticker.price,
         'date': ticker.date,
     })
-    
 
 
 # read an object's price
@@ -243,7 +244,7 @@ def get_ticker_previous(tickr, id):
         'date': ticker.date,
     })
 
-# read an object's ticker
+# get all of the objects that belong to a certain ticker
 @app.route('/get_all_ticker/<tickr>', methods=['GET'])
 def get_all_ticker(tickr):
     tickers = PriceHistory.query.filter_by(ticker=tickr).all()
@@ -262,6 +263,73 @@ def get_all_ticker(tickr):
         })
 
     return result
+
+# PURELY FOR SCHEDULER ---------------------------------------------------------------------------------------
+
+# return all of the tickers in the database
+@app.route('/get_all_tickers_in_database/<tickr>', methods=['GET'])
+def get_all_ticker_in_database():
+    tickers = PriceHistory.query.all()
+    
+    if tickers is None:
+        # Return a 404 error if the item is not found
+        return jsonify({'error': 'Item not found'}), 404
+    
+    result = []
+    for ticker in tickers:
+        if ticker.ticker not in result:
+            result.append(ticker.ticker)
+
+    return result
+
+# fetch the ticker data without all of the printing or returning
+def fetch_ticker_data(ticker):
+    with app.app_context():
+        url_complete_yahoo = f"https://finance.yahoo.com/quote/{ticker}/"
+        try:
+            result = requests.get(url_complete_yahoo)
+            if result.status_code == 404:
+                print(f"Ticker {ticker} not found.")
+                return None
+
+            picture = BeautifulSoup(result.content, 'html.parser')
+            price_element = picture.find('fin-streamer', {
+                'data-field': 'regularMarketPrice',
+                'data-testid': 'qsp-price'
+            })
+
+            if price_element:
+                print(price_element['data-value'])
+                print(price_element['data-symbol'])
+
+                new_price = PriceHistory(
+                    price=price_element['data-value'],
+                    ticker=price_element['data-symbol'],
+                )
+                db.session.add(new_price)
+                db.session.commit()
+                print(f"Scraped and saved data for {ticker}")
+            else:
+                print(f"Price element not found for ticker {ticker}")
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed for ticker {ticker}: {e}")
+
+# scrapes all of the tickers
+def scrape_all_tickers():
+    with app.app_context():
+        tickers = get_all_ticker_in_database()  # function call, gets all tickers in database
+        for ticker in tickers:
+            fetch_ticker_data(ticker)
+
+# scheduler, runs code in intervals while the servers are up
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=scrape_all_tickers, trigger="interval", minutes=1)
+#scheduler.start()
+
+# Shut down the scheduler when exiting the app
+#atexit.register(lambda: scheduler.shutdown())
+
+
 
 if __name__ == '__main__':
     # Initialize the database
