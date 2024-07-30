@@ -3,7 +3,7 @@ import Caret from './supportingJSX/Caret.jsx';
 
   const PriceTable = () => {
     const [prices, setPrices] = useState([]);
-    const [sort, setSort] = useState({keyToSort: "date", direction: "dsc"});
+    const [sort, setSort] = useState({keyToSort: "date", direction: "asc"});
     
     // Key is the same thing as accessor in the video 
 

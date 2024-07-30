@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {data} from './supportingJSX/data.jsx';
+import React, { useState, useEffect  } from 'react';
+import {fetchTickers} from './supportingJSX/tickers.jsx';
 import './styles.css';
 import axios from 'axios'; 
 
@@ -7,6 +7,15 @@ const MainContent = ({ showImage, scrapAlert }) => {
 const [searchTerm, setSearchTerm] = useState('');
 const [addTerm, setAddTerm] = useState('');
 const [message, setMessage] = useState('');
+const [data, setData] = useState([]);
+
+useEffect(() => {
+  const loadTickers = async () => {
+    const tickers = await fetchTickers();
+    setData(tickers);
+  };
+  loadTickers();
+}, []);
 
 const handleScrap = async () => {
   try {

@@ -267,7 +267,7 @@ def get_all_ticker(tickr):
 # PURELY FOR SCHEDULER ---------------------------------------------------------------------------------------
 
 # return all of the tickers in the database
-@app.route('/get_all_tickers_in_database/<tickr>', methods=['GET'])
+@app.route('/get_all_tickers_in_database/', methods=['GET'])
 def get_all_ticker_in_database():
     tickers = PriceHistory.query.all()
     
