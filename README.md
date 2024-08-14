@@ -17,7 +17,7 @@ This project is a stock tracking application that features a React frontend and 
 - **Web Scraping:** BeautifulSoup, Requests
 - **Graphing:** Chart.js
 
-## Installation
+## Installation and Run
 
 1. **Clone the repository:**
    ```bash
