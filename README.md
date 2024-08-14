@@ -15,7 +15,7 @@ This project is a stock tracking application that features a React frontend and 
 - **Backend:** Flask
 - **Database:** PostgreSQL
 - **Web Scraping:** BeautifulSoup, Requests
-- **Graphing:** Chart.js (or any other library you are using for graphs)
+- **Graphing:** Chart.js
 
 ## Installation
 
