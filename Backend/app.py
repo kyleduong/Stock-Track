@@ -69,13 +69,6 @@ def find_price():
 
     return jsonify({"Price": price_text})
 
-# the route/function that is going to be used in the timely calls
-# RESUME HERE --------------------------------------------------------------------------
-# what is left to do here, you will scrap the yahoo page, so figure out the prices and hmtl attributes to scrape
-# then link it to the button, where clicking it will scrape once, getting the price of the stock and logging it to the database.
-# once ur done with that, we have to figure out how to display/read the db information and show it, preferably on a graph but rn it can be just in a text box
-
-#SECOND THOUGHT: get the ticker through a request. You can use /ticker/ in url for something you will link to from the fetch and it will show graph?
 @app.route('/scrape_price', methods = ['POST'])
 def scrape_price():
 
