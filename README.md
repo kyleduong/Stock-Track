@@ -30,4 +30,10 @@ This project is a stock tracking application that features a React frontend and 
    run app.py
    cd frontend
    npm run dev
+
+## Instructions
+
+The code will run a scrape every second, scraping the prices of the stocks already in the database. Use the top search bar to filter through the list of stocks already in the database and view them individually. Use the bottom search bar to scrape a new stock to the database.
+
+The table is used to display and filter through recent scrapes to the database. Filter and click on a stock to see a graph of the prices' history, allowing for you to analyze its data.
    
