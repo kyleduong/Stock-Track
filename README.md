@@ -22,4 +22,12 @@ This project is a stock tracking application that features a React frontend and 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/stock-webscraper.git
-   cd stock-webscraper
+2. ** Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+4. **Run files**
+   ```bash
+   run app.py
+   cd frontend
+   npm run dev
+   
