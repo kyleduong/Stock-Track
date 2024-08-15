@@ -27,7 +27,7 @@ This project is a stock tracking application that features a React frontend and 
    pip install -r requirements.txt
 4. **Run files**
    ```bash
-   run Backend/app.py
+   python Backend/app.py
    cd frontend
    npm run dev
    ```
