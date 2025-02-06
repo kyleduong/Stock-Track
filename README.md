@@ -1,40 +1,117 @@
-# Stock Webscraper
+# Personalized AI Tutor - Flutter App with OpenAI and Firebase
 
-This project is a stock tracking application that features a React frontend and a Flask backend. It allows users to search for and monitor various stocks, view their history, and visualize stock data with graphs.
+This Flutter application provides personalized tutoring assistance on any subject using the OpenAI API and a Firebase Firestore backend.  Users can search for topics they need help with and receive tailored explanations, examples, and practice questions.
 
 ## Features
 
-- **Stock Tracking:** Keeps track of selected stocks in a PostgreSQL database.
-- **Search Functionality:** Search for stocks using the integrated search bar.
-- **Scrollable History:** View a scrollable box containing the history of tracked stocks.
-- **Graphical Visualization:** Displays graphs for each stock, showing historical data.
+*   **Subject Search:** Easily search for any subject you need help with.
+*   **Personalized Tutoring:** Leverages the OpenAI API to generate customized explanations based on the user's query.
+*   **Examples & Practice Questions:** Provides relevant examples and practice questions to solidify understanding.
+*   **Firebase Integration:**
+    *   Uses Firebase Authentication for user management (optional, can be adapted).
+    *   Stores user data and potentially tutoring history in Firestore.
+*   **Clean and Intuitive UI:** Built with Flutter for a cross-platform experience and a user-friendly interface.
+*   **Asynchronous Data Loading:**  Ensures a smooth user experience by handling API calls and data retrieval in the background.
 
 ## Technologies Used
 
-- **Frontend:** Flutter, Dart
-- **Backend:** Firebase
-- **Database:** Firebase
+*   **Flutter:**  A UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.
+*   **Dart:**  The programming language used to build Flutter apps.
+*   **Firebase Firestore:** A NoSQL cloud database for storing and syncing data.
+*   **Firebase Authentication:**  (Optional) A service for authenticating users.
+*   **OpenAI API:**  Leverages the power of OpenAI's language models to generate personalized tutoring content.
+*   **`http` package:**  For making HTTP requests to the OpenAI API.
 
-## Installation and Run
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/stock-webscraper.git
-2. ** Install dependencies:**
-   ```bash
-   npm install
-   install the Firebase CLI -> https://firebase.google.com/docs/cli/
-   
-   
-4. **Run files**
-   ```bash
-   main.dart (Run and debug)
-   ```
 ## Prerequisites
-- Node.js (v16 or higher)
-- npm or bun package manager
-- 
-## Instructions/Active
 
-Type in chat to run api calls to the AI to provide customized learning. 
-   
+Before you begin, ensure you have the following installed:
+
+*   **Flutter SDK:** [https://flutter.dev/docs/get-started/install](https://flutter.dev/docs/get-started/install)
+*   **Dart SDK:** Included with the Flutter SDK.
+*   **Firebase Project:**  [https://console.firebase.google.com/](https://console.firebase.google.com/)
+*   **OpenAI API Key:**  [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
+*   **FlutterFire CLI:**  `dart pub global activate flutterfire_cli`
+*   **An IDE (e.g., VS Code with Flutter extension, Android Studio)**
+
+## Setup
+
+1.  **Clone the Repository:**
+
+    ```bash
+    git clone <repository_url>
+    cd <repository_directory>
+    ```
+
+2.  **Firebase Configuration:**
+
+    *   Create a Firebase project in the Firebase Console.
+    *   Register your Flutter app with Firebase (following the instructions in the Firebase Console).
+    *   Download the `google-services.json` (for Android) and `GoogleService-Info.plist` (for iOS) files and place them in their respective `android/app/` and `ios/Runner/` directories.
+    *   Run `flutterfire configure` in your project directory.
+
+3.  **Install Dependencies:**
+
+    ```bash
+    flutter pub get
+    ```
+
+4.  **Configure OpenAI API Key:**
+
+    *   Create a file named `.env` in the root of your project (outside the `lib` folder for security).
+    *   Add your OpenAI API key to the `.env` file:
+
+        ```
+        OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+        ```
+
+    *   (Optional, if using Firebase Authentication and want to restrict access to certain collections)  Add Firebase Web API Key to the `.env` file:
+
+        ```
+        FIREBASE_API_KEY=YOUR_FIREBASE_API_KEY
+        ```
+
+    *   You'll likely need a package like `flutter_dotenv` to access the API key from your Dart code.  Add it to your `pubspec.yaml` file:
+
+        ```yaml
+        dependencies:
+          flutter_dotenv: ^5.1.0 # Or the latest version
+        ```
+
+    *   And then in your `main.dart` or wherever you need to access the key:
+
+        ```dart
+        import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+        void main() async {
+          await dotenv.load(fileName: ".env");
+          runApp(MyApp());
+        }
+
+        // ... later, access the key like this:
+        String openaiApiKey = dotenv.env['OPENAI_API_KEY'] ?? 'OPENAI_API_KEY not found';
+        ```
+
+5.  **Run the App:**
+
+    ```bash
+    flutter run
+    ```
+
+    Choose your desired platform (Android, iOS, web, etc.) when prompted.
+
+## Usage
+
+1.  **Search for a Subject:** Use the search bar to enter the subject you want to learn about.
+2.  **Review Personalized Content:** The app will generate personalized explanations, examples, and practice questions based on your search.
+3.  **Interact and Learn:**  Work through the provided materials to improve your understanding of the subject.
+
+## Disclaimer
+
+This application utilizes the OpenAI API, which is a paid service.  Usage of this application may incur costs associated with the OpenAI API.  Please review OpenAI's pricing and usage policies before using this application extensively. Also, the responses generated by OpenAI are AI-generated and may contain inaccuracies or biases.  Use the information provided with critical thinking and consult with other resources as needed.
+
+## License
+
+[MIT License](LICENSE) (Add a LICENSE file to your repo with the appropriate license text.)
+content_copy
+download
+Use code with caution.
