@@ -11,11 +11,9 @@ This project is a stock tracking application that features a React frontend and 
 
 ## Technologies Used
 
-- **Frontend:** React.js
-- **Backend:** Flask
-- **Database:** PostgreSQL
-- **Web Scraping:** BeautifulSoup, Requests
-- **Graphing:** Chart.js
+- **Frontend:** Flutter, Dart
+- **Backend:** Firebase
+- **Database:** Firebase
 
 ## Installation and Run
 
@@ -24,16 +22,19 @@ This project is a stock tracking application that features a React frontend and 
    git clone https://github.com/yourusername/stock-webscraper.git
 2. ** Install dependencies:**
    ```bash
-   pip install -r requirements.txt
+   npm install
+   install the Firebase CLI -> https://firebase.google.com/docs/cli/
+   
+   
 4. **Run files**
    ```bash
-   python Backend/app.py
-   cd frontend
-   npm run dev
+   main.dart (Run and debug)
    ```
+## Prerequisites
+- Node.js (v16 or higher)
+- npm or bun package manager
+- 
 ## Instructions/Active
 
-The code will run a scrape every second, scraping the prices of the stocks already in the database. Use the top search bar to filter through the list of stocks already in the database and view them individually. Use the bottom search bar to scrape a new stock to the database.
-
-The table is used to display and filter through recent scrapes to the database. Filter and click on a stock to see a graph of the prices' history, allowing for you to analyze its data.
+Type in chat to run api calls to the AI to provide customized learning. 
    
